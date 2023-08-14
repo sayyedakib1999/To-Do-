@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+    crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+  <link rel="icon" href="favicon.png" title="favicon" type="image/x-icon" />
+  <title>Todo App</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: "Work Sans", sans-serif;
+        font-weight: inherit;
+        line-height: inherit;
+        min-height: 100vh;
+        background-color: black;
+      }
+      
+      .mobile-github-button {
+        display: none;
+        text-align: center;
+        margin-top: 1em;
+        text-decoration: none;
+      }
+      
+      header {
+        padding: 0.6em;
+        align-items: center;
+        overflow: hidden;
+      }
+      
+      header h2 {
+        float: left;
+       
+      }
+      h1{
+        padding-top: 70px;
+        font-family: Gazpacho;
+        color:#fff;
+      }
+      header nav {
+        float: right;
+      }
+      
+      header nav ul {
+        list-style: none;
+      }
+      
+      header nav ul li {
+        margin-right: 1em;
+      }
+      
+      header nav ul li i {
+        font-size: 24px;
+        margin-right: 4px;
+      }
+      
+      header nav ul li a {
+        text-decoration: none;
+        align-items: center;
+        display: flex;
+      }
+      
+      form {
+        min-height: 20vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      form input,
+      form button {
+        padding: 0.5em;
+        font-size: 2rem;
+        border: none;
+        background-color: white;
+      }
+      
+      form input {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+      }
+      
+      form input, form button {
+        box-shadow: 2px 4px 18px rgba(0, 0, 0, 0.200);
+      }
+      
+      form input:focus {
+        outline: none;
+      }
+      
+      form button {
+        color: #6f65f6;
+        background-color: white;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+      
+      form button:hover {
+        background-color: #292929;
+        color: white;
+      }
+      
+      .todo-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .todo-list {
+        min-width: 30%;
+        list-style: none;
+      }
+      
+      .todo {
+        margin: 0.5rem;
+        background-color: white;
+        color: #292929;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 2px 4px 18px rgba(0, 0, 0, 0.200);
+        border-radius: 4px;
+      }
+      
+      .todo li {
+        flex: 1;
+      }
+      
+      .trash-btn, .complete-btn {
+        background-color: #6f65f6;
+        color: white;
+        border: none;
+        padding: 1rem;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+      
+      .trash-btn {
+        background-color: red;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+      
+      .todo-item {
+        padding: 0rem 0.5rem;
+      }
+      
+      .fa-trash, .fa-check {
+        pointer-events: none;
+      }
+      
+      .completed {
+        text-decoration: line-through;
+        opacity: 0.5;
+      }
+      
+      .fall {
+        transition: all 0.4s ease-in-out;
+        transform: translateY(8rem) rotateZ(20deg);
+        opacity: 0;
+      }
+      
+      select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        outline: none;
+        border: none;
+        padding: 1rem;
+      }
+      
+      .select {
+        margin: 1rem;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      select {
+        color: #292929;
+        width: 10rem;
+        cursor: pointer;
+      }
+      
+      .select::after {
+        content: '\25BC';
+        position: absolute;
+        background-color: #6f65f6;
+        top: 0;
+        right: 0;
+        padding: 1rem;
+        pointer-events: none;
+        transition: all 0.3s ease-in-out;
+      }
+      
+      .select:hover::after {
+        background-color: #292929;
+        color:#fff;
+      }
+      
+      
+      @media screen and (max-width: 850px) {
+        form {
+          margin-top: 3em;
+        }
+      
+        form input {
+          width: 80%;
+        }
+      
+        form input, form button {
+          padding: 0.5em;
+          font-size: medium;
+        }
+      
+        form input::placeholder {
+          font-size: medium;
+          align-items: center;
+          justify-content: center;
+        }
+      
+        .mobile-github-button {
+          display: block;
+        }
+      
+        header h2 {
+          text-align: center;
+          float: none;
+          margin-top: 2em;
+        }
+      
+        header nav {
+          display: none;
+        }
+      }
+      
+</style>
+
+</head>
+
+<body>
+
+  <header>
+    <h1 style="text-align: center;">
+      To DO App
+    </h1>
+  </header>
+
+  
+  <form style="align-content: center;">
+    <input type="text" class="todo-input" placeholder="Add A New Task" />
+    <button class="todo-button" type="submit">
+      <i class="fas fa-plus-square"></i>
+    </button>
+
+    <span id="validation-toast"></span>
+  </form>
+
+  <!-- Importing audio sounds -->
+  <audio id="complete-sound" src="sounds/complete.mp3" preload="auto"></audio>
+  <audio id="remove-sound" src="sounds/remove.mp3" preload="auto"></audio>
+
+  <div class="todo-container">
+    <ul class="todo-list">
+      <!--  -->
+    </ul>
+  </div>
+
+  <footer>
+  </footer>
+
+  <!-- Linking all the scripts here -->
+  <script>
+    // selectors
+const todoInput = document.querySelector('.todo-input');
+const todoButton = document.querySelector('.todo-button');
+const todoList = document.querySelector('.todo-list');
+const filterOption = document.querySelector('.filter-todo');
+
+// event listeners
+document.addEventListener('DOMContentLoaded', getTodos);
+
+todoButton.addEventListener('click', addTodo);
+
+todoList.addEventListener('click', deleteCheck);
+
+filterOption.addEventListener('click', filterTodo);
+
+// functions
+
+function addTodo(event) {
+  // preventing form button from submitting
+  event.preventDefault();
+
+  // saving the new todo item in the todo file
+  // saving it in a local-storage
+  // saveLocalTodos(todoInput.value);
+  if (!saveLocalTodos(todoInput.value)) {
+    return;
+  }
+  // Creating a todo div
+  const todoDiv = document.createElement('div');
+  todoDiv.classList.add('todo');
+  // Creating a List element to store the todo item
+  // in the form of list-item
+  const newTodo = document.createElement('li');
+  newTodo.classList.add('todo-item');
+  newTodo.innerText = todoInput.value;
+
+  // appending the newTodo as a child node in 
+  // the todo division
+  todoDiv.appendChild(newTodo);
+
+  // adding the check mark button for the todo item
+  const completedButton = document.createElement('button');
+  completedButton.innerHTML = `<i class="fas fa-check"></i>`;
+  completedButton.classList.add('complete-btn');
+  todoDiv.appendChild(completedButton);
+
+  // adding the delete(trash) button for the todo item - deletion
+  const trashButton = document.createElement('button');
+  trashButton.innerHTML = `<i class="fas fa-trash"></i>`;
+  trashButton.classList.add('trash-btn');
+  todoDiv.appendChild(trashButton);
+
+  // appending the todo list items in the todo-div
+  todoList.appendChild(todoDiv);
+
+  // clearing the todoInput(value) to nothing
+  // after adding new items 
+  todoInput.value = "";
+}
+
+function deleteCheck(e) {
+  const item = e.target;
+
+  // checking condition to delete the todo item
+  // by checking the click item's class name
+  if (item.classList[0] === 'trash-btn') {
+    const todo = item.parentElement;
+
+    // playing the card removing sound on the click
+    document.getElementById('remove-sound').play();
+
+    // adding the deleting item transition
+    todo.classList.add('fall');
+
+    // removing the local todo from the local-storage
+    removeLocalTodos(todo);
+
+    // adding an event-listener - which will wait for the
+    // transition effect/animation to complete itself
+    // and remove the item component after that
+    todo.addEventListener('transitionend', function () {
+      // removing the todo after the ending of the 
+      // transition effect
+      todo.remove();
+    });
+  }
+
+  // checking condition to check the todo item
+  // by checking the click item's class name
+  if (item.classList[0] === 'complete-btn') {
+    const todo = item.parentElement;
+    document.getElementById('complete-sound').play();
+    todo.classList.toggle('completed');
+  }
+}
+
+// creating a function method to implement the filter feature
+// to filter the todo items - That is o the basis of All, Completed
+// Tasks and Remaining/Uncompleted Tasks
+
+// code here from github.
+
+function saveLocalTodos(todo) {
+  // check if todo is blank
+  if (!todo) return;
+
+  // creating a check - To check the already written
+  // data(todo-items) in the local storage
+  let todos;
+  if (localStorage.getItem('todos') === null) {
+    todos = [];
+  } else {
+    todos = JSON.parse(localStorage.getItem('todos'));
+  }
+
+  // check if todo already exists
+  let isTodoPresent = todos.filter(oldTodo => oldTodo.toLowerCase() === todo.toLowerCase());
+  if (isTodoPresent.length) {
+    // show something to notify user
+    let validationToast = document.getElementById('validation-toast');
+    validationToast.innerHTML = "Todo already exists!";
+    validationToast.classList.add('show-toast');
+    setTimeout(function () {
+      validationToast.classList.remove("show-toast");
+      validationToast.innerHTML = "";
+    }, 3000);
+    return;
+  }
+
+  /// pushing a the todo item in the file
+  todos.push(todo);
+  localStorage.setItem('todos', JSON.stringify(todos));
+  return true;
+}
+
+// creating a feature to implement the todos saved in the local
+// storage in the UI of the webpage - Means, Getting the array of save
+// data from the local storage to the UI (Todo Item Cards)
+
+function getTodos() {
+
+  // creating a check - To check the already written
+  // data(todo-items) in the local storage
+  let todos;
+  if (localStorage.getItem('todos') === null) {
+    todos = [];
+  } else {
+    todos = JSON.parse(localStorage.getItem('todos'));
+  }
+
+  todos.forEach(function (todo) {
+    // Creating a todo div
+    const todoDiv = document.createElement('div');
+    todoDiv.classList.add('todo');
+    // Creating a List element to store the todo item
+    // in the form of list-item
+    const newTodo = document.createElement('li');
+    newTodo.classList.add('todo-item');
+    newTodo.innerText = todo;
+
+    // appending the newTodo as a child node in 
+    // the todo division
+    todoDiv.appendChild(newTodo);
+
+    // adding the check mark button for the todo item
+    const completedButton = document.createElement('button');
+    completedButton.innerHTML = `<i class="fas fa-check"></i>`;
+    completedButton.classList.add('complete-btn');
+    todoDiv.appendChild(completedButton);
+
+    // adding the delete(trash) button for the todo item - deletion
+    const trashButton = document.createElement('button');
+    trashButton.innerHTML = `<i class="fas fa-trash"></i>`;
+    trashButton.classList.add('trash-btn');
+    todoDiv.appendChild(trashButton);
+
+    // appending the todo list items in the todo-div
+    todoList.appendChild(todoDiv);
+  });
+}
+
+// creating a function to remove localStorage todos
+// ones they are deleted by the user
+function removeLocalTodos(todo) {
+
+  // creating a check - To check the already written
+  // data(todo-items) in the local storage
+  let todos;
+  if (localStorage.getItem('todos') === null) {
+    todos = [];
+  } else {
+    todos = JSON.parse(localStorage.getItem('todos'));
+  }
+
+  // Getting the IndexValue of the element or
+  // (todo-items) that has to be removed
+  const todoIndex = todo.children[0].innerText;
+  todos.splice(todos.indexOf(todoIndex), 1);
+
+  // after deleting the todo-item, here we need to
+  // update the localStorage
+  localStorage.setItem('todos', JSON.stringify(todos));
+}
+  </script>
+</body>
+
+</html>
